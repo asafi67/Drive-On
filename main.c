@@ -71,17 +71,31 @@ void motorRun(int speed, int direction) {
 
 	PCA9685_SetPwmDutyCycle(PWMA, speed);
 	if (direction == FORWARD) {
+		
 		PCA9685_SetLevel(AIN1, 0);
-    		PCA9685_SetLevel(AIN2, 1);
+    	PCA9685_SetLevel(AIN2, 1);
+
+		PCA9685_SetLevel(BIN1, 0);
+    	PCA9685_SetLevel(BIN2, 1);
 	} else {
 		PCA9685_SetLevel(AIN1, 1);
-    		PCA9685_SetLevel(AIN2, 0);
+    	PCA9685_SetLevel(AIN2, 0);
+
+		PCA9685_SetLevel(BIN1, 1);
+    	PCA9685_SetLevel(BIN2, 0);
 	}
 }
-
 
 // stop the motor
 void motorStop() {
 
 	PCA9685_SetPwmDutyCycle(PWMA, 0);
+}
+
+void turnLeft(void){
+	
+}
+
+void turnRight(void){
+
 }

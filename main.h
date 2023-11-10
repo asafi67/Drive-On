@@ -7,6 +7,9 @@
 #define PWMA PCA_CHANNEL_0
 #define AIN1 PCA_CHANNEL_1
 #define AIN2 PCA_CHANNEL_2
+#define BIN1 PCA_CHANNEL_3
+#define BIN2 PCA_CHANNEL_4
+#define PWMB PCA_CHANNEL_5
 #define FORWARD	0
 #define REVERSE 1
 
