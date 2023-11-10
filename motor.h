@@ -1,5 +1,5 @@
-#ifndef ASSIGNMENT3_H
-#define ASSIGNMENT3_H
+#ifndef MOTOR_H
+#define MOTOR_H
 
 #include "PCA9685.h"
 #include "DEV_Config.h"
