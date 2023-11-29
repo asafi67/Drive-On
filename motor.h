@@ -14,7 +14,9 @@
 #define REVERSE 1
 
 void motorInit(void);
-void motorRun(int speed, int direction);
+void forward(int speed, int direction);
 void motorStop(void);
 void turnLeft(void);
 void turnRight(void);
+
+#endif

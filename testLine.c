@@ -38,7 +38,7 @@ int main(void) {
         return 1;       
     }
 
- //   signal(SIGINT, intHandler);
+  //  signal(SIGINT, intHandler);
 
     // motor initialization
     motorInit();
@@ -47,14 +47,13 @@ int main(void) {
     gpioSetMode(LINE_SENSOR_MIDDLE, PI_INPUT);
     gpioSetMode(LINE_SENSOR_RIGHT, PI_INPUT);
 
-    pthread_t threads[5];
+    pthread_t threads[4];
     pthread_create(&threads[0], NULL, readLeftSensor, NULL);
     pthread_create(&threads[1], NULL, readMiddleSensor, NULL);
     pthread_create(&threads[2], NULL, readRightSensor, NULL);
     pthread_create(&threads[3], NULL, combineSensors, NULL);
-    pthread_create(&threads[4], NULL, masterControl, NULL);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         pthread_join(threads[i], NULL);
     }
 
@@ -95,62 +94,52 @@ void *readRightSensor(void *arg) {
 
 void *combineSensors(void *arg) {
     while (!terminate) {
-        pthread_mutex_lock(&sensorMutex);
+        //pthread_mutex_lock(&sensorMutex);
         combinedSensorsValue = leftSensorValue * 1 + middleSensorValue * 2 + rightSensorValue * 4;
-        pthread_mutex_unlock(&sensorMutex);
-        usleep(10000);  // 10 ms delay
+	printf("%d",combinedSensorsValue);
+	//sleep(1);
+        //pthread_mutex_unlock(&sensorMutex);
+        //ausleep(10000);  // 10 ms delay
     }
     return NULL;
 }
-
+/*
 void *masterControl(void *arg) {
-    int speed = 80;  // Initial speed to overcome static friction
-    int constantSpeed = 80;  // Constant speed for normal operation
-    int left = 0;
+    int speed = 100;  // Initial speed to overcome static friction
+    int constantSpeed = 50;  // Constant speed for normal operation
+
     while (!terminate) {
-        //pthread_mutex_lock(&sensorMutex);
+        pthread_mutex_lock(&sensorMutex);
         int sensors = combinedSensorsValue;
-        //pthread_mutex_unlock(&sensorMutex);
-	printf("%d\n", sensors);
-	/*
+        pthread_mutex_unlock(&sensorMutex);
+
         if (speed > constantSpeed) {
             forward(speed, FORWARD);  // Start with higher speed to overcome static friction
-            //usleep(500000);           // Run at higher speed for a short duration
+            usleep(500000);           // Run at higher speed for a short duration
             speed = constantSpeed;    // Then set to constant speed
         }
-	*/
+
         switch (sensors) {
             case 0:   // 000 - lost the line
-                //motorStop();
-		if (left)
-			turnLeft();
-		else
-			turnRight();
+                motorStop();
                 break;
             case 1:   // 100 - left sensor active, turn left
-                //turnLeft();
-		turnLeft();
-		left = 1;
+                turnLeft();
                 break;
             case 2:   // 010 - optimal, middle sensor active, on track, move forward
                 forward(speed, FORWARD);
-		//motorStop();
                 break;
             case 3:   // 110 - left and middle sensors active, turn left
                 turnLeft();
-		left = 1;
                 break;
             case 4:   // 001 - right sensor active, turn right
                 turnRight();
-		left = 0;
                 break;
             case 5:   // 101 - left and right sensors active, unusual situation
-                //motorStop();
-		forward(speed, FORWARD);
+                motorStop();
                 break;
             case 6:   // 011 - middle and right sensors active, turn right
                 turnRight();
-		left = 0;
                 break;
             case 7:   // 111 - all sensors active, wide line or intersection
                 forward(speed, FORWARD);
@@ -159,9 +148,8 @@ void *masterControl(void *arg) {
                 motorStop();  // handle unexpected cases
                 break;
         }
-	
 
-        usleep(10000);  // 100 ms delay
+        usleep(100000);  // 100 ms delay
     }
     return NULL;
 }
@@ -169,3 +157,4 @@ void *masterControl(void *arg) {
 void intHandler(int dummy) {
     terminate = 1;
 }
+*/
