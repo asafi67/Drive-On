@@ -7,6 +7,8 @@
 #include <pigpio.h>
 #include <signal.h>
 #include "motor.h"  
+#include <stdbool.h>
+#include "ir_sensor.c"
 
 #include "PCA9685.h"
 #include "DEV_Config.h"
@@ -17,11 +19,19 @@
 #define LINE_SENSOR_MIDDLE 22
 #define LINE_SENSOR_RIGHT 23
 
+#define IR_SENSOR_FRONT  
+#define IR_SENSOR_LEFT   
+#define IR_SENSOR_RIGHT  
+
+
 volatile sig_atomic_t terminate = 0;
 
 // shared variables for sensor readings
 volatile int leftSensorValue, middleSensorValue, rightSensorValue;
 volatile int combinedSensorsValue;  // shared variable for combined sensor readings
+
+//Declare and initialize a variable that indicates whether obstacle avoidance is currently happening
+volatile bool avoidingObstacle = false;
 
 pthread_mutex_t sensorMutex = PTHREAD_MUTEX_INITIALIZER;  // mutex for sensor value updates
 
@@ -57,6 +67,24 @@ int main(void) {
     for (int i = 0; i < 5; i++) {
         pthread_join(threads[i], NULL);
     }
+    
+    // GPIO pins for IR sensors
+    int irFrontPin = IR_SENSOR_FRONT;
+    int irLeftPin = IR_SENSOR_LEFT;
+    int irRightPin = IR_SENSOR_RIGHT;
+
+    //Create threads for IR sensors
+    pthread_t irFrontThread, irLeftThread, irRightThread;
+    pthread_create(&irFrontThread, NULL, handleIRSensor, (void *)&irFrontPin);
+    pthread_create(&irLeftThread, NULL, handleIRSensor, (void *)&irLeftPin);
+    pthread_create(&irRightThread, NULL, handleIRSensor, (void *)&irRightPin);
+
+    //Join threads for IR sensors
+    pthread_join(irFrontThread, NULL);
+    pthread_join(irLeftThread, NULL);
+    pthread_join(irRightThread, NULL);
+
+
 
     motorStop(); // stop the motor when the program terminates
     gpioTerminate();
@@ -103,6 +131,8 @@ void *combineSensors(void *arg) {
     return NULL;
 }
 
+
+
 void *masterControl(void *arg) {
     int speed = 80;  // Initial speed to overcome static friction
     int constantSpeed = 80;  // Constant speed for normal operation
@@ -119,6 +149,19 @@ void *masterControl(void *arg) {
             speed = constantSpeed;    // Then set to constant speed
         }
 	*/
+    //Obstacle avoidance logic
+    if(obstacleFront){
+        avoidingObstacle = true;
+
+            // Check for obstacle on the left and right
+            if (!obstacleLeft) {
+                turnLeft();  // Turn left if no obstacle on the left
+            } else if (!obstacleRight) {
+                turnRight();  // Turn right if no obstacle on the right
+            }
+            
+            avoidingObstacle = false;
+    } else {
         switch (sensors) {
             case 0:   // 000 - lost the line
                 //motorStop();
@@ -160,6 +203,9 @@ void *masterControl(void *arg) {
                 break;
         }
 	
+
+    }
+        
 
         usleep(10000);  // 100 ms delay
     }
