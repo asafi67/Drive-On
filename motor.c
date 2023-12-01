@@ -41,14 +41,14 @@ void motorStop() {
     
 }
 
-void turnLeft(void){
+void turnLeft(int speed){
     printf("turning left\n");
     PCA9685_SetPwmDutyCycle(PWMA, 0);
-    PCA9685_SetPwmDutyCycle(PWMB, 80);
+    PCA9685_SetPwmDutyCycle(PWMB, speed - 10);
 }
 
-void turnRight(void){
+void turnRight(int speed){
 	printf("turning right\n");
-	PCA9685_SetPwmDutyCycle(PWMA, 80);
+	PCA9685_SetPwmDutyCycle(PWMA, speed - 10);
     PCA9685_SetPwmDutyCycle(PWMB, 0);
 }

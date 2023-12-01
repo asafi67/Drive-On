@@ -16,7 +16,7 @@
 void motorInit(void);
 void forward(int speed, int direction);
 void motorStop(void);
-void turnLeft(void);
-void turnRight(void);
+void turnLeft(int speed);
+void turnRight(int speed);
 
 #endif
