@@ -8,6 +8,9 @@
 #include <fcntl.h>
 
 
+#define IR_SENSOR_FRONT 17
+#define IR_SENSOR_LEFT 24
+#define IR_SENSOR_RIGHT 25
 
 //Function declarations
 
