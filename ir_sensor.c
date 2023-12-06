@@ -73,7 +73,9 @@ void* handleSensor(void* args) {
         return NULL;
     }
   
-    
+       // Read the value from the GPIO pin
+       int sensorValue = readGPIO(pin); 
+       
        // Update obstacle flags and sensor-specific logic based on sensor readings
        if (pin == IR_SENSOR_FRONT) {
         obstacleFront = (sensorValue == 0);
