@@ -1,10 +1,13 @@
 #include "ir_sensor.h"
 #include <stdbool.h>
+#include <pthread.h>
 
 //Define flags for obstacle detection
 volatile bool obstacleFront = false;
 volatile bool obstacleLeft = false;
 volatile bool obstacleRight = false;
+
+pthread_mutex_t ir_sensorMutex = PTHREAD_MUTEX_INITIALIZER;  // mutex for ir sensor value updates
 
 //Function to export a GPIO pin
 //We write pin number to the export file
@@ -69,12 +72,10 @@ void* handleSensor(void* args) {
     if (setGPIO(pin, "in") == -1) {
         return NULL;
     }
-
-    while (1) {
-        int sensorValue = readGPIO(pin);
-        
+  
+    
        // Update obstacle flags and sensor-specific logic based on sensor readings
-    if (pin == IR_SENSOR_FRONT) {
+       if (pin == IR_SENSOR_FRONT) {
         obstacleFront = (sensorValue == 0);
         // Logic for front IR sensor
         printf("Front IR Sensor: %s\n", 
@@ -89,11 +90,7 @@ void* handleSensor(void* args) {
         // Logic for right IR sensor
         printf("Right IR Sensor: %s\n", 
         sensorValue == 0 ? "Obstacle Detected" : "No Obstacle");
-    }
-
-
-        usleep(100000); // Sleep for 100ms
-    }
-
+    }        
+   
     return NULL;
 }
