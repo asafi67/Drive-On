@@ -18,9 +18,9 @@
 #define LINE_SENSOR_MIDDLE 22
 #define LINE_SENSOR_RIGHT 23
 
-#define IR_SENSOR_FRONT 17
-#define IR_SENSOR_LEFT 24
-#define IR_SENSOR_RIGHT 25
+// #define IR_SENSOR_FRONT 17
+// #define IR_SENSOR_LEFT 24
+// #define IR_SENSOR_RIGHT 25
 
 volatile sig_atomic_t terminate = 0;
 
@@ -90,9 +90,9 @@ int main(void)
 
     // Create threads for IR sensors
     pthread_t irFrontThread, irLeftThread, irRightThread;
-    pthread_create(&irFrontThread, NULL, handleIRSensor, (void *)&irFrontPin);
-    pthread_create(&irLeftThread, NULL, handleIRSensor, (void *)&irLeftPin);
-    pthread_create(&irRightThread, NULL, handleIRSensor, (void *)&irRightPin);
+    pthread_create(&irFrontThread, NULL, handleSensor, (void *)&irFrontPin);
+    pthread_create(&irLeftThread, NULL, handleSensor, (void *)&irLeftPin);
+    pthread_create(&irRightThread, NULL, handleSensor, (void *)&irRightPin);
 
     // Join threads for IR sensors
     pthread_join(irFrontThread, NULL);
