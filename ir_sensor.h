@@ -14,6 +14,6 @@
 int exportGPIO(int pin);
 int setGPIO(int pin, const char* direction);
 int readGPIO(int pin);
-void handleSensor(void* args);
+void* handleSensor(void* args);
 
 #endif // IR_SENSOR
