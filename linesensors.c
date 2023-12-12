@@ -22,27 +22,16 @@ struct sensorStruct {
 	volatile int *sensorValue;
 	int sensorPin;
 };
-/*
-struct sonarStruct {
-	volatile double *distance;
-	int triggerPin;
-	int echoPin;
-};
-*/
+
 volatile sig_atomic_t terminate = 0;
-//volatile int terminate = 0;
 
 // shared variables for sensor readings
 volatile int leftSensorValue, middleSensorValue, rightSensorValue;
 volatile int combinedSensorsValue;  // shared variable for combined sensor readings
-volatile double sonarDistance;
 //Declare and initialize a variable that indicates whether obstacle avoidance is currently happening
-volatile bool avoidingObstacle = false;
 // shared variables for ir readings
 volatile int IRfront, IRleft, IRside;
-pthread_mutex_t sensorMutex = PTHREAD_MUTEX_INITIALIZER;  // mutex for sensor value updates
 
-double soundVelocity = 331.0;
 
 // Function prototypes
 void *readLeftSensor(void *arg);
@@ -61,8 +50,6 @@ int main(void) {
         fprintf(stderr, "pigpio initialisation failed\n");
         return 1;       
     }
-
- //   signal(SIGINT, intHandler);
 
     // motor initialization
     motorInit();
@@ -101,9 +88,6 @@ int main(void) {
 
     IRsensor[2].sensorPin = IR_SENSOR_SIDE;
     IRsensor[2].sensorValue = &IRside;
-
-	
- 
 
     pthread_t threads[8];
     pthread_create(&threads[0], NULL, readLeftSensor, NULL);
