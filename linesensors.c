@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <time.h>
 #include "assignedPins.h"
+#include "IRsensor.h"
 
 
 struct sensorStruct {
