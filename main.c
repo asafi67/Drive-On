@@ -168,7 +168,7 @@ void *masterControl(void *arg) {
     setDirection(FORWARD);
     // testing purposes
     volatile double leftSpeed = 90;
-    volatile double rightSpeed = 0;
+    volatile double rightSpeed = 90;
 
     while (!terminate) {
         //pthread_mutex_lock(&sensorMutex);
@@ -216,6 +216,7 @@ void *masterControl(void *arg) {
 
 
     } else {
+        curve(leftSpeed, rightSpeed);
         switch (sensors) {
             case 0:   // 000 - lost the line
                 if (left) {
