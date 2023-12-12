@@ -218,42 +218,66 @@ void *masterControl(void *arg) {
     } else {
         switch (sensors) {
             case 0:   // 000 - lost the line
-                if (left)
-			turnLeft(speed);
-		else
-			turnRight(speed);
+                if (left) {
+			//turnLeft(speed);
+            rightSpeed -= (0.54);
+			leftSpeed += (0.4 );
+                }
+		else {
+			//turnRight(speed);
+            rightSpeed -= (0.54);
+			leftSpeed += (0.4 );
+        }
                 break;
 //motorStop();
 		            case 1:   // 100 - left sensor active, turn left
                 //turnLeft();
-		turnLeft(speed);
-		left = 1;
+                    //turnLeft(speed);
+                    rightSpeed -= (0.54);
+                        leftSpeed += (0.4 );
+                    left = 1;
                 break;
             case 2:   // 010 - optimal, middle sensor active, on track, move forward
-                forward(speed, FORWARD);
+                //forward(speed, FORWARD);
+                rightSpeed = 90;
+			    leftSpeed = 90;
 		//motorStop();
                 break;
             case 3:   // 110 - left and middle sensors active, turn left
-                turnLeft(speed);
+                //turnLeft(speed);
+                rightSpeed -= (0.54);
+			leftSpeed += (0.4 );
 		left = 1;
                 break;
             case 4:   // 001 - right sensor active, turn right
-                turnRight(speed);
+                //turnRight(speed);
+                rightSpeed -= (0.54);
+			leftSpeed += (0.4 );
 		left = 0;
                 break;
             case 5:   // 101 - left and right sensors active, unusual situation
                 //motorStop();
-		forward(speed, FORWARD);
+		        //forward(speed, FORWARD);
+                rightSpeed = 90;
+			    leftSpeed = 90;
                 break;
             case 6:   // 011 - middle and right sensors active, turn right
-                turnRight(speed);
-		left = 0;
+                //turnRight(speed);
+                rightSpeed -= (0.54);
+			    leftSpeed += (0.4 );
+	        	left = 0;
                 break;
             case 7: 
-		if (left)
-			turnLeft(speed);
-		else
-			turnRight(speed);
+		if (left) {
+			//turnLeft(speed);
+            rightSpeed -= (0.54);
+			leftSpeed += (0.4 );
+        }
+		else{
+			//turnRight(speed);
+            rightSpeed -= (0.54);
+			leftSpeed += (0.4 );
+        }
                 break;
   // 111 - all sensors active, wide line or intersection
                 //forward(speed, FORWARD);
@@ -268,6 +292,18 @@ void *masterControl(void *arg) {
     leftSpeed = 90;
     rightSpeed = 0;
         
+    if ((int)rightSpeed > 90){
+		    rightSpeed =90.0;
+	    }
+	    if ( (int) rightSpeed < 40) {
+		    rightSpeed = 40.0;
+	    }
+	    if ( (int) leftSpeed > 90) {
+		    leftSpeed =90.0;
+	    }
+	    if ( (int) leftSpeed < 40) {
+		    leftSpeed = 40.0;
+	    }
 
         usleep(10000);  // 100 ms delay
     }
