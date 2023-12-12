@@ -289,8 +289,8 @@ void *masterControl(void *arg) {
 	
 
     }
-    leftSpeed = 90;
-    rightSpeed = 0;
+   // leftSpeed = 90;
+   // rightSpeed = 0;
         
     if ((int)rightSpeed > 90){
 		    rightSpeed =90.0;
@@ -307,6 +307,7 @@ void *masterControl(void *arg) {
 
         usleep(10000);  // 100 ms delay
     }
+
     return NULL;
 }
 
