@@ -217,12 +217,12 @@ void *masterControl(void *arg) {
 
     } else {
         curve(leftSpeed, rightSpeed);
-        switch (sensors) {
+        switch (combinedSensorsValue) {
             case 0:   // 000 - lost the line
                 if (left) {
 			//turnLeft(speed);
-            rightSpeed -= (0.54);
-			leftSpeed += (0.4 );
+            rightSpeed += (1.2);
+		    leftSpeed -= ( 1.0);
                 }
 		else {
 			//turnRight(speed);
@@ -234,8 +234,8 @@ void *masterControl(void *arg) {
 		            case 1:   // 100 - left sensor active, turn left
                 //turnLeft();
                     //turnLeft(speed);
-                    rightSpeed -= (0.54);
-                        leftSpeed += (0.4 );
+                    rightSpeed += (1.2);
+		        leftSpeed -= ( 1.0);
                     left = 1;
                 break;
             case 2:   // 010 - optimal, middle sensor active, on track, move forward
@@ -246,14 +246,14 @@ void *masterControl(void *arg) {
                 break;
             case 3:   // 110 - left and middle sensors active, turn left
                 //turnLeft(speed);
-                rightSpeed -= (0.54);
-			leftSpeed += (0.4 );
+                rightSpeed += (1.2);
+		        leftSpeed -= ( 1.0);
 		left = 1;
                 break;
             case 4:   // 001 - right sensor active, turn right
                 //turnRight(speed);
                 rightSpeed -= (0.54);
-			leftSpeed += (0.4 );
+			    leftSpeed += (0.4 );
 		left = 0;
                 break;
             case 5:   // 101 - left and right sensors active, unusual situation
@@ -271,8 +271,8 @@ void *masterControl(void *arg) {
             case 7: 
 		if (left) {
 			//turnLeft(speed);
-            rightSpeed -= (0.54);
-			leftSpeed += (0.4 );
+            rightSpeed += (1.2);
+		    leftSpeed -= ( 1.0);
         }
 		else{
 			//turnRight(speed);
