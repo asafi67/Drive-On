@@ -207,7 +207,7 @@ void *masterControl(void *arg) {
 	//usleep(300000);
 	//curve(leftSpeed, rightSpeed);
 	//usleep(500000);
-	while (avoiding ||  IRfront == 0 || combinedSensorsValue == 0 ) {
+	while ( IRfront == 0 || combinedSensorsValue == 0 ) {
 	    if ((int)rightSpeed > 90){
 		    rightSpeed =90.0;
 	    }
