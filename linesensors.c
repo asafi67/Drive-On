@@ -79,8 +79,8 @@ int main(void) {
 	
     // initialize IR sensors
     gpioSetMode(IR_SENSOR_FRONT, PI_INPUT);
-    //gpioSetMode(IR_SENSOR_LEFT, PI_INPUT);
-    //gpioSetMode(IR_SENSOR_RIGHT, PI_INPUT);
+    gpioSetMode(IR_SENSOR_LEFT, PI_INPUT);
+    gpioSetMode(IR_SENSOR_SIDE, PI_INPUT);
 
 
     signal(SIGINT,intHandler); 
@@ -103,13 +103,7 @@ int main(void) {
     IRsensor[2].sensorValue = &IRside;
 
 	
-    // initialize sonar struct
-   // struct sonarStruct sonar;
-    //sonar.triggerPin = SONAR_TRIGGER;
-    //sonar.echoPin = SONAR_ECHO;
-    //sonar.distance = &sonarDistance;
-
-	
+ 
 
     pthread_t threads[8];
     pthread_create(&threads[0], NULL, readLeftSensor, NULL);
@@ -128,23 +122,7 @@ int main(void) {
     for (int i = 0; i < 7; i++) {
         pthread_join(threads[i], NULL);
     }
- /*  
-    // GPIO pins for IR sensors
-    int irFrontPin = IR_SENSOR_FRONT;
-    int irLeftPin = IR_SENSOR_LEFT;
-    int irRightPin = IR_SENSOR_RIGHT;
-
-    //Create threads for IR sensors
-    pthread_t irFrontThread, irLeftThread, irRightThread;
-    pthread_create(&irFrontThread, NULL, handleIRSensor, (void *)&irFrontPin);
-    pthread_create(&irLeftThread, NULL, handleIRSensor, (void *)&irLeftPin);
-    pthread_create(&irRightThread, NULL, handleIRSensor, (void *)&irRightPin);
-
-    //Join threads for IR sensors
-    pthread_join(irFrontThread, NULL);
-    pthread_join(irLeftThread, NULL);
-    pthread_join(irRightThread, NULL);
-*/
+ 
 
 
     motorStop(); // stop the motor when the program terminates
@@ -212,38 +190,16 @@ void *masterControl(void *arg) {
     int left = 0;
 	
     setDirection(FORWARD);
-    //curve(82,86);
-    //forward(100, FORWARD);
-  //  sleep(100);
-   
-
     // testing purposes
     volatile double leftSpeed = 90;
     volatile double rightSpeed = 0;
-    volatile int avoiding = 0;
-    volatile double mult = 1.0;
-
-	speed = 85;
-
-
 
     while (!terminate) {
         //pthread_mutex_lock(&sensorMutex);
         int sensors = combinedSensorsValue;
         //pthread_mutex_unlock(&sensorMutex);
 	printf("%d\n", sensors);
-	/*
-        if (speed > constantSpeed) {
-            forward(speed, FORWARD);  // Start with higher speed to overcome static friction
-            //usleep(500000);           // Run at higher speed for a short duration
-            speed = constantSpeed;    // Then set to constant speed
-        }
-	*/
-
-	
-
     //Obstacle avoidance logic
-   // if(obstacleFront){
    if(!IRfront){
 
 	
@@ -275,17 +231,7 @@ void *masterControl(void *arg) {
 		    leftSpeed -= ( 1.0);
 		    //mult -= 0.1;
 	    }
-		/*
-	    if ( (int) mult < 1) {
-		    mult = 1.0;
-	    }
-	    else if ( (int) mult >= 2) {
-		    mult = 2.0;
-	    }
-	    printf("multiplier factor : %f\n", mult);
-	    */
-	    //usleep(100);
-    	}	
+    }	
 
 
 	while(IRside == 0) {
@@ -360,31 +306,4 @@ void intHandler(int signo) {
     exit(0);
 }
 
-/*
-void *readSonar(void *arg){
-	struct sonarStruct *sonar = (struct sonarStruct *) arg;
-	
-	double start, stop, duration;
-	while(!terminate){
-	gpioWrite(sonar->triggerPin, HIGH);
-	usleep(10);
-	gpioWrite(sonar->triggerPin, LOW);
-
-	while(gpioRead(sonar->echoPin) == LOW){}
-
-	start = clock() / (1.0 * CLOCKS_PER_SEC);
-
-	while(gpioRead(sonar->echoPin) == HIGH){}
-
-	stop = clock() / (1.0 * CLOCKS_PER_SEC);
-
-	duration = stop - start;
-	
-	*(sonar->distance) = (soundVelocity * duration) / 2;
-	usleep(100);
-	}
-	return NULL;
-}
-*/
-	
 
