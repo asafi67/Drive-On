@@ -41,6 +41,8 @@ void *readRightSensor(void *arg);
 void *combineSensors(void *arg);
 void *masterControl(void *arg);
 void intHandler(int);
+
+void *readIRSensor(void *arg);
 //void *readSonar(void *arg);
 
 
@@ -282,3 +284,13 @@ void intHandler(int signo) {
 }
 
 
+void *readIRSensor(void *arg) {
+	struct sensorStruct *sensor = (struct sensorStruct *) arg;
+       		
+	
+	while(!terminate) {
+		*(sensor->sensorValue) = gpioRead(sensor->sensorPin);
+
+	}
+	return NULL;
+}
