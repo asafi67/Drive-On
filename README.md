@@ -1,32 +1,36 @@
-Raspberry Pi Self-Driving Car Project
+# Drive On: Raspberry Pi Self-Driving Car Project - CSC 615 Final Project
 
-Welcome to the "Drive On" repository – home to an exciting CSC 615 final project! In collaboration with my team, we embarked on the journey of creating a miniature self-driving car powered by the Raspberry Pi 4. This project showcases our skills in both hardware assembly and software development.
-Project Highlights
+Welcome to the "Drive On" repository – the hub of our CSC 615 final project showcasing an innovative miniature self-driving car powered by the Raspberry Pi 4. This project is a collaborative effort, highlighting our expertise in both hardware assembly and software development.
 
-    Hardware Assembly: We meticulously assembled the car from the ground up, incorporating the latest Raspberry Pi technology.
+## Project Highlights
 
-    Autonomous Navigation: Leveraging line sensors, our self-driving car confidently maneuvers through diverse courses, showcasing its ability to follow predefined paths with precision.
+- **Hardware Assembly:** Meticulously assembled from the ground up, incorporating the latest Raspberry Pi technology.
 
-    Obstacle Avoidance: Safety is paramount! Our car is equipped with infrared sensors, enabling it to intelligently detect and avoid obstacles during its autonomous journey.
+- **Autonomous Navigation:** Utilizing line sensors, our self-driving car confidently maneuvers through diverse courses, demonstrating its precision in following predefined paths.
 
-Technical Details
+- **Obstacle Avoidance:** Safety is paramount! Our car is equipped with infrared sensors, intelligently detecting and avoiding obstacles during its autonomous journey.
 
-    Programming Language: C
+## Technical Details
 
-    GPIO Library and Direct-Memory Access: The project involved extensive use of the GPIO library functions and direct-memory access to program custom functions that manipulate sensor I/O readings.
+- **Programming Language:** C
 
-    Main Function: The heart of the project lies in "main.c," where the core functionalities for running the self-driving car are implemented.
+- **GPIO Library and Direct-Memory Access:** Extensive use of GPIO library functions and direct-memory access to program custom functions manipulating sensor I/O readings.
 
-    Compilation and Execution: The Makefile simplifies the build process, making it easy to compile and execute the code.
+- **Main Function:** The core functionalities for running the self-driving car are implemented in "main.c."
 
-    Linux Expertise: Operating the Raspberry Pi required a strong understanding of Linux, a skillset that played a fundamental role in the successful execution of our project.
+- **Compilation and Execution:** The Makefile simplifies the build process, making it easy to compile and execute the code.
 
-How to Use
+- **Linux Expertise:** Operating the Raspberry Pi required a strong understanding of Linux, a skillset fundamental to the successful execution of our project.
 
-    Clone this repository to your local machine.
-    Navigate to the project directory and compile using the provided Makefile.
-    Execute the program to witness the Raspberry Pi-powered self-driving car in action.
+## How to Use
 
-Acknowledgments
+1. Clone this repository to your local machine.
+2. Navigate to the project directory and compile using the provided Makefile.
+3. Execute the program to witness the Raspberry Pi-powered self-driving car in action.
 
-We are proud to present "Drive On" as a testament to our dedication, technical proficiency, and passion for innovative projects. Thank you for exploring our repository – we hope it inspires and sparks your interest!
+## Acknowledgments
+
+We proudly present "Drive On" as a testament to our dedication, technical proficiency, and passion for innovative projects. Thank you for exploring our repository – we hope it inspires and sparks your interest!
+
+
+
