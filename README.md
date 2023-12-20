@@ -1,5 +1,4 @@
-
-##Raspberry Pi Self-Driving Car Project
+Raspberry Pi Self-Driving Car Project
 
 Welcome to the "Drive On" repository – home to an exciting CSC 615 final project! In collaboration with my team, we embarked on the journey of creating a miniature self-driving car powered by the Raspberry Pi 4. This project showcases our skills in both hardware assembly and software development.
 Project Highlights
